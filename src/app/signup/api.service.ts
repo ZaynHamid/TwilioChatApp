@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 export class ApiService {
 
   constructor(private http: HttpClient) { }
-  postData(url: string): Observable<any> {
-    return this.http.get<any>(url);
+  postData(url: string, data: any): Observable<any> {
+    return this.http.post<any>(url, data);
   }
 
 }
