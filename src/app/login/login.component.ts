@@ -26,7 +26,10 @@ export class LoginComponent {
     this.apiService.postLoginCreds("https://zayndev.pythonanywhere.com/login", creds).subscribe(
       res => {
         localStorage.setItem("token", res.token)
+        localStorage.setItem("email", res.email)
+        localStorage.setItem("access_token", res.access_token)
         this.router.navigate(["dashboard"])
+        console.log(res.access_token)
       },
       error => {
         console.log('Login error:', error);

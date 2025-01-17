@@ -1,0 +1,45 @@
+<div
+  class="w-1/2 mx-auto h-[80vh] p-4 mt-16 bg-slate-300 flex flex-col justify-between rounded-lg shadow-lg"
+>
+  <div #chatContainer class="flex flex-col space-y-4 overflow-y-auto p-4">
+    @for (message of messages; track $index)
+    {
+      @if(message.author === userEmail) {
+      <div
+        class="self-end py-4 !my-4 px-6 max-w-2xl rounded-3xl bg-blue-600/80 text-white font-semibold shadow-md"
+      >
+        {{ message.message }}
+      </div>
+      }
+      @else {
+      <p class="text-slate-700">
+        {{ message.author }}
+      </p>
+      <div
+        class="self-start py-4 !m-0 px-6 max-w-2xl rounded-3xl bg-white/80 text-black font-semibold shadow-md"
+      >
+        {{ message.message }}
+      </div>
+      }
+    }
+  </div>
+
+  <p>
+    @if(typingIndicator !== '') {
+      {{typingIndicator}}
+    } 
+  </p>
+  <div class="flex items-center rounded-lg border-t border-gray-300">
+    <input
+      type="text"
+      placeholder="Type a message..."
+      (keypress)="sendMessage($event)"
+      class="flex-1 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
+    />
+    <button
+      class="ml-4 p-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700"
+    >
+      Send
+    </button>
+  </div>
+</div>
