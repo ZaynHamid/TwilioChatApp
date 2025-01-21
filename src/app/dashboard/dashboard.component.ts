@@ -22,7 +22,7 @@ export class DashboardComponent {
 
   logout() {
     localStorage.clear()
-    this.router.navigate(["/login"])
+    this.router.navigate(["/"])
   }
 
 }

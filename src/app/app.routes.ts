@@ -5,7 +5,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChatComponent } from './chat/chat.component';
 
 export const routes: Routes = [
-    {path:"login", component: LoginComponent},
+    {path:"", component: LoginComponent},
     {path:"signup", component: SignupComponent},
     {path:"dashboard", component: DashboardComponent},
     {path:"chat", component: ChatComponent},
