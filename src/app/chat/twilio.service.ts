@@ -16,7 +16,7 @@ export class TwilioService {
 
   async getConvoBySid(
     sid: string
-  ): Promise<{ message: string; author: string; }[]> {
+  ): Promise<{ message: string; author: string; time: string }[]> {
     if (!this.client) {
       throw new Error('Twilio client is not initialized.');
     }
@@ -26,9 +26,15 @@ export class TwilioService {
       console.log('Conversation Fetched Successfully!');
 
       const messages = await convo.getMessages();
+
       return messages.items.map((msg: Message) => ({
         message: msg.body ?? '',
         author: msg.author ?? '',
+        time: msg.dateCreated?.toLocaleTimeString("en-us", {
+          hour: '2-digit',
+          minute: '2-digit', 
+          hour12: true
+        }) ?? ''
       }));
     } catch (error) {
       console.error('Error fetching conversation:', error);

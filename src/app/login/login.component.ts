@@ -28,6 +28,7 @@ export class LoginComponent {
         localStorage.setItem("token", res.token)
         localStorage.setItem("email", res.email)
         localStorage.setItem("access_token", res.access_token)
+        localStorage.setItem("username", res.user)
         this.router.navigate(["dashboard"])
         console.log(res.access_token)
       },

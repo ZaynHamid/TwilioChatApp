@@ -21,6 +21,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   messages: Message[] = [];
   userEmail = localStorage.getItem('email') ?? '';
   accessToken = localStorage.getItem('access_token') ?? '';
+  username = localStorage.getItem('access_token') ?? '';
   typingIndicator = ""
 
   constructor(private twilioService: TwilioService) {}
@@ -52,11 +53,14 @@ export class ChatComponent implements OnInit, AfterViewInit {
   sendMessage(e: KeyboardEvent) {
     if (e.key === 'Enter') {
       const inpEl = e.target as HTMLInputElement;
+      const currentTime = new Date().toLocaleTimeString()
+      const time = currentTime.replace(/:\d{2}(?=\s|$)/, '')
+
       if( inpEl.value.trim() !== "")
       this.twilioService
         .SendMessage('CH913011d8520a4e2e8ea7a24213b5ef44', inpEl.value)
         .then(() => {
-          this.messages.push({ message: inpEl.value, author: this.userEmail });
+          this.messages.push({ message: inpEl.value, author: this.userEmail, time: time });
           this.scrollToBottom();
           inpEl.value = '';
         })
@@ -86,9 +90,13 @@ export class ChatComponent implements OnInit, AfterViewInit {
       convo.on('messageAdded', (msg) => {
         console.log('new message!');
         if (msg.author !== this.userEmail) {
+          const currentTime = new Date().toLocaleTimeString()
+          const time = currentTime.replace(/:\d{2}(?=\s|$)/, '')
+    
           this.messages.push({
             message: msg.body ?? '',
             author: msg.author ?? '',
+            time: time
           });
           this.scrollToBottom();
         }
@@ -104,4 +112,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
       
     }
   }
+
+  
 }

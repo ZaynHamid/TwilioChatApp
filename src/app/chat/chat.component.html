@@ -9,6 +9,8 @@
         class="self-end py-4 !my-4 px-6 max-w-2xl rounded-3xl bg-blue-600/80 text-white font-semibold shadow-md"
       >
         {{ message.message }}
+        {{message.time}}
+
       </div>
       }
       @else {
@@ -19,6 +21,7 @@
         class="self-start py-4 !m-0 px-6 max-w-2xl rounded-3xl bg-white/80 text-black font-semibold shadow-md"
       >
         {{ message.message }}
+        {{message.time}}
       </div>
       }
     }
