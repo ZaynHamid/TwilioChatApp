@@ -7,12 +7,15 @@ import {
   ElementRef,
   AfterViewInit,
 } from '@angular/core';
-import { ChildActivationEnd } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FriendListService } from '../inbox/friend-list.service';
+import { ActivatedRoute } from '@angular/router';
+import { Friends } from './friendList';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
 })
@@ -24,13 +27,18 @@ export class ChatComponent implements OnInit, AfterViewInit {
   username = localStorage.getItem('access_token') ?? '';
   typingIndicator = ""
 
-  constructor(private twilioService: TwilioService) {}
+  constructor(private twilioService: TwilioService, private friendsList: FriendListService, private route: ActivatedRoute) {}
 
   async ngOnInit(): Promise<void> {
     await this.twilioService.initialize(this.accessToken);
-
+    const userId = this.route.snapshot.paramMap.get('id')
+    const friendList: Friends[] = this.friendsList.fetchFriendList()
+    const targetFriend = userId && +userId;
+    const friend = friendList.find(friend => friend.chatId === targetFriend)
+    const loggenInUser = localStorage.getItem("username") ?? ''
     this.fetchConversation();
     this.listenForEvents();
+    this.twilioService.findExistingConvo(loggenInUser, friend?.name ?? "")
   }
 
   ngAfterViewInit() {

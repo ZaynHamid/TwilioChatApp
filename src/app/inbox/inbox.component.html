@@ -1,0 +1,9 @@
+<div>
+    <h2>Friends List</h2>
+    <div class="flex gap-6">
+      <div *ngFor="let friend of friendsList" class="flex gap-4 pointer px-4">
+        <p [routerLink]="['/chat', friend.chatId]">{{friend.name}}</p>
+      </div>
+    </div>
+  
+  </div>
