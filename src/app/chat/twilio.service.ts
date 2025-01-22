@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Client, Message } from '@twilio/conversations';
+import { Client, Message, Conversation } from '@twilio/conversations';
 
 @Injectable({
   providedIn: 'root',
@@ -47,7 +47,7 @@ export class TwilioService {
       const convo = await this.client?.getConversationBySid(sid);
       if (convo) {
         await convo.sendMessage(message);
-        console.log('MEssage sent');
+        console.log('Message sent');
       } else {
         console.log('error');
       }
@@ -56,6 +56,8 @@ export class TwilioService {
       console.log('Error: ', e);
     }
   }
-
+  async findExistingConvo(user1: string, user2: string) {
+      // const conversation = await this.client?.conversa
+  }
 
 }
