@@ -15,6 +15,7 @@ export class LoginComponent {
   email: string = ""
   password: string = ""
   token: string = ""
+
   constructor(private apiService: ApiService, private router: Router){}
   handleSubmit(e: Event) {
     e.preventDefault();  

@@ -26,8 +26,28 @@ export class ChatComponent implements OnInit, AfterViewInit {
   accessToken = localStorage.getItem('access_token') ?? '';
   username = localStorage.getItem('access_token') ?? '';
   typingIndicator = ""
-
+  subscribedConvo = ''
   constructor(private twilioService: TwilioService, private friendsList: FriendListService, private route: ActivatedRoute) {}
+
+  // async ngOnInit(): Promise<void> {
+  //   await this.twilioService.initialize(this.accessToken);
+  //   const userId = this.route.snapshot.paramMap.get('id')
+  //   const friendList: Friends[] = this.friendsList.fetchFriendList()
+  //   const targetFriend = userId && +userId;
+  //   const friend = friendList.find(friend => friend.chatId === targetFriend)
+  //   const loggenInUser = localStorage.getItem("username") ?? ''
+  //   const convoCreds = {
+  //     user1: friend?.name,
+  //     user2: loggenInUser
+  //   };
+  //   (await this.twilioService.findExistingConvo("https://zayndev.pythonanywhere.com/get_creds", convoCreds)).subscribe(res => {
+  //     this.subscribedConvo = res.sid;
+  //     this.fetchConversation();
+  //     this.listenForEvents();
+  //     console.log(convoCreds)
+  //   })
+   
+  // }
 
   async ngOnInit(): Promise<void> {
     await this.twilioService.initialize(this.accessToken);
@@ -36,9 +56,13 @@ export class ChatComponent implements OnInit, AfterViewInit {
     const targetFriend = userId && +userId;
     const friend = friendList.find(friend => friend.chatId === targetFriend)
     const loggenInUser = localStorage.getItem("username") ?? ''
+    const convoCreds = {
+      user1: friend?.name,
+      user2: loggenInUser
+    };
+
     this.fetchConversation();
-    this.listenForEvents();
-    this.twilioService.findExistingConvo(loggenInUser, friend?.name ?? "")
+      this.listenForEvents();
   }
 
   ngAfterViewInit() {
@@ -48,7 +72,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   async fetchConversation(): Promise<void> {
     try {
       const messages = await this.twilioService.getConvoBySid(
-        'CH913011d8520a4e2e8ea7a24213b5ef44'
+        'CH63e0dc94545e4c71aa6b62070568a5e5'
       );
       this.messages = messages;
 
@@ -66,7 +90,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
       if( inpEl.value.trim() !== "")
       this.twilioService
-        .SendMessage('CH913011d8520a4e2e8ea7a24213b5ef44', inpEl.value)
+        .SendMessage('CH63e0dc94545e4c71aa6b62070568a5e5', inpEl.value)
         .then(() => {
           this.messages.push({ message: inpEl.value, author: this.userEmail, time: time });
           this.scrollToBottom();
@@ -76,7 +100,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
           console.error('Error sending message:', error);
         });
     } else {
-     this.twilioService.client?.getConversationBySid("CH913011d8520a4e2e8ea7a24213b5ef44").then(convo => convo.typing())
+     this.twilioService.client?.getConversationBySid('CH63e0dc94545e4c71aa6b62070568a5e5').then(convo => convo.typing())
     }
   }
 
@@ -91,9 +115,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   async listenForEvents() {
     const convo = await this.twilioService.client?.getConversationBySid(
-      'CH913011d8520a4e2e8ea7a24213b5ef44'
+      'CH63e0dc94545e4c71aa6b62070568a5e5'
     );
-
     if (convo) {
       convo.on('messageAdded', (msg) => {
         console.log('new message!');

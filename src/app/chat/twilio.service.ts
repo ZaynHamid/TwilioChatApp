@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Client, Message, Conversation } from '@twilio/conversations';
+import { url } from 'inspector';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +9,7 @@ import { Client, Message, Conversation } from '@twilio/conversations';
 export class TwilioService {
   public client: Client | null = null;
 
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
   async initialize(token: string): Promise<void> {
@@ -56,8 +58,8 @@ export class TwilioService {
       console.log('Error: ', e);
     }
   }
-  async findExistingConvo(user1: string, user2: string) {
-      // const conversation = await this.client?.conversa
+  async findExistingConvo( url: string, data:any) {
+      return this.http.post<any>(url, data)
   }
 
 }
